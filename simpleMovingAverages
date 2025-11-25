@@ -4,10 +4,10 @@
 indicator("Custom SMA", overlay=true)
 
 // Input: Lookback period for the moving average
-l = input(14, title="Smoothing Period")
+l = input(14, title="Time")
 
 // User input for source data (close, open, high, low, hl2, etc.)
-Option = input.string("close", title="P", options=["close", "open", "high", "low", "hl2"])
+Option = input.string("close", title="P", options=["close", "open", "high", "low"])
 
 // Map the selected price source to the actual data
 P = switch Option
@@ -15,13 +15,12 @@ P = switch Option
     "open" => open
     "high" => high
     "low" => low
-    "hl2" => hl2
 
 // Custom function to calculate smooth moving average using customizable price source
-movingAverage(length,priceSource) =>
+movingAverage(l,P) =>
     float s = 0.0
-    for i = 0 to length - 1
-        s := s + priceSource[i]
+    for i = 0 to l - 1
+        s := s + P[i]
     s / l
 
 // Call the custom function and plot the result
